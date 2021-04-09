@@ -1,107 +1,111 @@
-/*
-  Arduino Programs Blink
-
-  This sketch demonstrates the Keyboard library.
-
-  For Leonardo and Due boards only.
-
-  When you connect pin 2 to ground, it creates a new window with a key
-  combination (CTRL-N), then types in the Blink sketch, then auto-formats the
-  text using another key combination (CTRL-T), then uploads the sketch to the
-  currently selected Arduino using a final key combination (CTRL-U).
-
-  Circuit:
-  - Arduino Leonardo, Micro, Due, LilyPad USB, or Yún
-  - wire to connect D2 to ground
-
-  created 5 Mar 2012
-  modified 29 Mar 2012
-  by Tom Igoe
-  modified 3 May 2014
-  by Scott Fitzgerald
-
-  This example is in the public domain.
-
-  http://www.arduino.cc/en/Tutorial/KeyboardReprogram
-*/
-
 #include "Keyboard.h"
 
-// use this option for OSX.
-// Comment it out if using Windows or Linux:
-char ctrlKey = KEY_LEFT_GUI;
-// use this option for Windows and Linux.
-// leave commented out if using OSX:
-//  char ctrlKey = KEY_LEFT_CTRL;
+#define ctrl 0x80
+#define win 0x83
+#define KEY_BACKSPACE 0xB2
+#define KEY_UP_ARROW 0xDA
 
+void start()
+{
+  Keyboard.press(win);
+  Keyboard.releaseAll();
+  delay(500);
+  Keyboard.press('a');
+  Keyboard.press('r');
+  Keyboard.press('d');
+  Keyboard.press('u');
+  Keyboard.releaseAll();
+  delay(500);
+  Keyboard.press('\n');
+  Keyboard.releaseAll();
+  delay(4000);
+  Keyboard.press(ctrl);
+  Keyboard.press('n');
+  Keyboard.releaseAll();
+  delay(2000);
+}
+
+void del_all()
+{
+  Keyboard.press(ctrl);
+  Keyboard.press('a');
+  Keyboard.releaseAll();
+  Keyboard.write(KEY_BACKSPACE);
+  Keyboard.releaseAll();
+  delay(500);
+}
+void maximum()
+{
+  Keyboard.press(win);
+  Keyboard.press(KEY_UP_ARROW);
+  Keyboard.releaseAll();
+}
+void source()
+{
+  delay(1000);
+  Keyboard.println("#include <Keyboard.h>");
+  Keyboard.print("void setup*");
+  Keyboard.write(0x28);
+  Keyboard.write(0x7d);
+  Keyboard.write('\n');
+  Keyboard.print("  Keyboard.begin*");
+  Keyboard.write(0x28);
+  Keyboard.println(";");
+  Keyboard.print("  delay*1000");
+  Keyboard.write(0x28);
+  Keyboard.println(";");
+  Keyboard.print("  Keyboard.press*0x80");
+  Keyboard.write(0x28);
+  Keyboard.println(";");
+  Keyboard.print("  Keyboard.press*0x61");
+  Keyboard.write(0x28);
+  Keyboard.println(";");
+  Keyboard.print("  ");
+  Keyboard.print("Keyboard.release");
+  delay(10);
+  Keyboard.print("All*");
+  Keyboard.write(0x28);
+  Keyboard.println(";");
+  Keyboard.print("  Keyboard.write*0xB2");
+  Keyboard.write(0x28);
+  Keyboard.println(";");
+  Keyboard.print("  Keyboard.releaseAll*");
+  Keyboard.write(0x28);
+  Keyboard.println(";");
+  Keyboard.print("  delay*500");
+  Keyboard.write(0x28);
+  Keyboard.println("|");
+}
+
+void test()
+{
+  /*
+  char key = 0x00;
+  while(key<=0xFF){
+    delay(100);
+    Keyboard.write(key);
+    Keyboard.println(long(key));
+    key++;
+  }
+  */
+  Keyboard.write(0X7d);
+}
 void setup()
 {
-    // make pin 2 an input and turn on the pull-up resistor so it goes high unless
-    // connected to ground:
-    pinMode(2, INPUT_PULLUP);
-    // initialize control over the keyboard:
-    Keyboard.begin();
+  pinMode(2, INPUT_PULLUP);
+  Keyboard.begin();
 }
 
 void loop()
 {
-    while (digitalRead(2) == HIGH)
-    {
-        // do nothing until pin 2 goes low
-        delay(500);
-    }
-    delay(1000);
-    // new document:
-    Keyboard.press(ctrlKey);
-    Keyboard.press('n');
-    delay(100);
-    Keyboard.releaseAll();
-    // wait for new window to open:
-    delay(1000);
-
-    // versions of the Arduino IDE after 1.5 pre-populate new sketches with
-    // setup() and loop() functions let's clear the window before typing anything new
-    // select all
-    Keyboard.press(ctrlKey);
-    Keyboard.press('a');
-    delay(500);
-    Keyboard.releaseAll();
-    // delete the selected text
-    Keyboard.write(KEY_BACKSPACE);
-    delay(500);
-
-    // Type out "blink":
-    Keyboard.println("void setup() {");
-    Keyboard.println("pinMode(13, OUTPUT);");
-    Keyboard.println("}");
-    Keyboard.println();
-    Keyboard.println("void loop() {");
-    Keyboard.println("digitalWrite(13, HIGH);");
-    Keyboard.print("delay(3000);");
-    // 3000 ms is too long. Delete it:
-    for (int keystrokes = 0; keystrokes < 6; keystrokes++)
-    {
-        delay(500);
-        Keyboard.write(KEY_BACKSPACE);
-    }
-    // make it 1000 instead:
-    Keyboard.println("1000);");
-    Keyboard.println("digitalWrite(13, LOW);");
-    Keyboard.println("delay(1000);");
-    Keyboard.println("}");
-    // tidy up:
-    Keyboard.press(ctrlKey);
-    Keyboard.press('t');
-    delay(100);
-    Keyboard.releaseAll();
-    delay(3000);
-    // upload code:
-    Keyboard.press(ctrlKey);
-    Keyboard.press('u');
-    delay(100);
-    Keyboard.releaseAll();
-
-    // wait for the sweet oblivion of reprogramming:
-    while (true)
-        ;
+  while (digitalRead(2) == HIGH)
+  {
+    delay(50);
+  }
+  delay(1000);
+  // start();
+  //maximum();
+  // del_all();
+  source();
+  //test();
 }
