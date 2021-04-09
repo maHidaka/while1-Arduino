@@ -107,12 +107,7 @@ void upload()
   Keyboard.print("loop");
   delay(1000);
   Keyboard.write('\n');
-  Keyboard.print("loop");
-  delay(1000);
-  Keyboard.write('\n');
-  delay(1000);
-  Keyboard.write('\n');
-  Keyboard.releaseAll();
+
 }
 
 void test()
