@@ -107,6 +107,11 @@ void upload()
   Keyboard.print("loop");
   delay(1000);
   Keyboard.write('\n');
+  Keyboard.print("loop");
+  delay(1000);
+  Keyboard.write('\n');
+  delay(1000);
+  Keyboard.write('\n');
   Keyboard.releaseAll();
 }
 
@@ -121,8 +126,6 @@ void setup()
   delay(3000);
   Keyboard.begin();
   delay(1000);
-  launch_arduino();
-  maximum();
   del_all();
   get_code();
   back_arduino();
