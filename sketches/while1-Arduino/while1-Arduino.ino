@@ -118,15 +118,8 @@ void test()
 void setup()
 {
   pinMode(2, INPUT_PULLUP);
+  delay(3000);
   Keyboard.begin();
-}
-
-void loop()
-{
-  while (digitalRead(2) == HIGH)
-  {
-    delay(50);
-  }
   delay(1000);
   launch_arduino();
   maximum();
@@ -136,4 +129,9 @@ void loop()
   paste();
   upload();
   //test();
+}
+
+void loop()
+{
+  delay(10);
 }
